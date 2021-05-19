@@ -28,43 +28,43 @@ void init_LED(){
 void startTransmittoin(){
 	
 	PORT_led_ODR|=BIT_DC_mask;
-	sysDelay(200);
+	sysDelay(50);
         PORT_led_ODR&=~BIT_DC_da;
-        sysDelay(200);
+        sysDelay(50);
 
 }
 
 void stopTransmittoin(){
 
 	PORT_led_ODR&=~BIT_DC_clk;
-        sysDelay(200);
+        sysDelay(50);
         PORT_led_ODR&=~BIT_DC_da;
-	sysDelay(200);
+	sysDelay(50);
         PORT_led_ODR|=BIT_DC_clk;
-        sysDelay(200);
+        sysDelay(50);
         PORT_led_ODR|=BIT_DC_da;
-        sysDelay(200);
+        sysDelay(50);
 
 
 }
 
 void sendByte(char byte){
 	char i;
-	sysDelay(200);
+	sysDelay(50);
 	for(i=0;i<8;i++){
 		PORT_led_ODR&=~BIT_DC_clk;
-		nop();sysDelay(200);
+		nop();sysDelay(50);
                 PORT_led_ODR&=~BIT_DC_da;
 		PORT_led_ODR|=(byte&1)<<PIN_DC_da;
-		nop();sysDelay(200);
+		sysDelay(50);
 		PORT_led_ODR|=BIT_DC_clk;
-		byte>>=1;sysDelay(200);
+		byte>>=1;sysDelay(50);
                 
 	}
         PORT_led_ODR&=~BIT_DC_clk;
-		nop();sysDelay(200);
+		nop();sysDelay(50);
         PORT_led_ODR|=BIT_DC_clk;
-        nop();sysDelay(200);
+        nop();sysDelay(50);
         
 }	
 	
@@ -105,10 +105,10 @@ void printData(char* byte){
 	stopTransmittoin();
 }
 
-void printValue(long int val, char leftAlignment){
+void printValue(int val, char leftAlignment){
 	char data[14]={0x3f,0x06,0x5b,0x4f,0x66,  0x6d,0x7d,0x07,0x7f,0x6f,/*0-9,(0-9)*/ 0x80,/*'.' (10)*/ 0x00,/*' '(11)*/ 0x08,               /*'_'(12)*/ 0x40};   /* '-'(minus) (13)*/
   char sendingData[8]	={0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00};																														
-	long valCopy;
+	int valCopy;
 	char sign;
 	char digCNTR=1;
 	char i,d;
@@ -159,3 +159,4 @@ void printValue(long int val, char leftAlignment){
     printData(sendingData);
 	}
 }
+
