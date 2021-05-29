@@ -27,4 +27,4 @@ char start_iic (char adr, char read_write_bit);
 char send_byte (char data_byte);
 unsigned char receive_byte (char acknowledge);
 void stop_iic (void);
-void supply (void);
+
