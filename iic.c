@@ -98,13 +98,4 @@ void stop_iic (void)
 	PORT_iic_ODR|=bit_sda; 											//set sda=1
 }
 
-void supply (void)
-{	 
-        PORT_supply_CR2&=~bit_mask_plus_minus; 
-	PORT_supply_CR1|=bit_mask_plus_minus; 
-	PORT_supply_ODR|=bit_plus; 
-        PORT_supply_ODR&=~bit_minus; 
-	PORT_supply_DDR|=bit_mask_plus_minus; 
-        sys_del_ms_iic(200);
-								
-}
+
