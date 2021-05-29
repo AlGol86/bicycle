@@ -10,14 +10,23 @@ sys_time_t sys_time;
 
 int main( void )
 {
- supply ();
- initGY_521();
- initGY_521();
+ sys_del_ms_iic(200);
  init_LED();
- out(init);
- init_tim1();
- blink(ride);
- int y=get_average_GY_521(AXEL_Y);
+ supply (on);
+ initGY_521();
+ 
+ int y=get_average_GY_521(AXEL_Y);  
+ while(y==0){
+     printValue(8, 0); 
+     supply (off);
+     sys_del_ms_iic(500);
+     supply (on);
+     sys_del_ms_iic(500);
+     initGY_521();
+     y=get_average_GY_521(AXEL_Y);  
+    }
+ printValue(111, 0); 
+ 
  if(y<7000 && y>-7000) {
    statement.display=on;
  } else {
@@ -25,9 +34,17 @@ int main( void )
    sendCMD(CMD_DISP_OFF);
  }
  
+ out(init);
+ init_tim1();
+ blink(ride);
+
+ 
  while(1){
-  int val=0;
+  int val=0,yy=0,zz=0;
   val=get_average_GY_521(AXEL_X)/10;
+  yy=get_average_GY_521(AXEL_Y)/10;
+  zz=get_average_GY_521(AXEL_Z)/10;
+  yy++;zz++;
   if(statement.display){
   printValue(val, 0); 
   }
@@ -38,8 +55,6 @@ int main( void )
   }
  }
 }
-
-
 
 
 
