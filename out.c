@@ -1,4 +1,3 @@
-#include "led.h"
 #include "main.h"
 #include "scheduler.h"
 
@@ -47,8 +46,7 @@ void out(out_t out){
 	PORT_out_CR1|=BIT_out;
 	PORT_out_ODR&=~BIT_out;
 	PORT_out_DDR|=BIT_out;
-	sysDelay(200);
-        break;
+	break;
   
   case on:
   PORT_out_ODR|=BIT_out;
@@ -73,6 +71,18 @@ void out(out_t out){
   
  }
 }
-  
+  void supply (out_t mode)
+{	
+        
+        if(mode==on){
+        PORT_supply_CR2&=~bit_mask_plus_minus; 
+	PORT_supply_CR1|=bit_mask_plus_minus; 
+	PORT_supply_ODR|=bit_plus; 
+        PORT_supply_ODR&=~bit_minus; 
+	PORT_supply_DDR|=bit_mask_plus_minus; 
+        } else{PORT_supply_ODR&=~bit_plus; }
+       
+								
+}
 
   
