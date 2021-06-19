@@ -41,7 +41,7 @@ void getBurstGY_521(char* data, char n){
 }
 
 void initGY_521(){
-        sys_del_ms_iic(200);
+        sys_del_ms_iic(100);
 	getValueGY_521(MPU6050_PWR_MGMT_1);
 	setValueGY_521(MPU6050_PWR_MGMT_1,0);
         sys_del_ms_iic(100);
@@ -54,26 +54,48 @@ int get_TXYZ_GY_521(char data_type){
 	getBurstGY_521(array, 2);
 	XYZT=(array[0]<<8)+array[1];
 	if (data_type == TEMP)	{XYZT/=34;return XYZT+365;}
-	else return XYZT;
+	else {
+          if(XYZT<-15000) XYZT=-15000;
+          return XYZT;
+        }
 }
 
 int get_average_GY_521(char data_type){
- int i;
- int x=0;
- for(i=0;i<20;i++){
- x+=get_TXYZ_GY_521(data_type)/10;
+ int i,j;
+ int x[]={0,0,0};
+ 
+ for(j=0;j<3;j++){
+  for(i=0;i<20;i++){
+   x[j]+=get_TXYZ_GY_521(data_type)/10;
+  } 
+  x[j]/=2;
  }
- x/=2;
- return x;
+ return get_mediana(&x[0]);
+}
 
-
+int get_mediana(int* data){
+ int res;
+ int x[3];
+ x[0]=*data;
+ x[1]=*(data+1);
+ x[2]=*(data+2);
+  
+ if(x[0]<x[1] && x[0]<x[2] ) res=(x[1]<x[2])?x[1]:x[2];
+ else if(x[1]<x[0] && x[1]<x[2] )res=(x[0]<x[2])?x[0]:x[2];
+ else res=(x[0]<x[1])?x[0]:x[1];
+ 
+ return res;
 }
 
 char check_condition_GY_521(int threshold, int hyst, int val){
   extern statement_t statement;
   	
-  if     (val > (threshold+hyst)) {statement.cond_f=1;return 1;}
-  else if(val < threshold) {statement.cond_f=0;return 0;}
-  else if (statement.cond_f) return 1;
-  else return 0;
+  if     (val > (threshold+hyst)) 
+  {statement.cond_f=1;return 1;}
+  else if(val < threshold) 
+  {statement.cond_f=0;return 0;}
+  else if (statement.cond_f) 
+    return 1;
+  else 
+    return 0;
 }

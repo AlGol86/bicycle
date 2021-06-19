@@ -4,11 +4,13 @@
 __interrupt void tim1(void);
 void init_tim1(void);
 
-
+//put tasks here
 typedef enum {
-  on_light,
-  off_light,
-  stop_off_task,
+  on_led,
+  off_led,
+  PWM_on_led,
+  PWM_off_led,
+  blink_led,
   bottom_task} task_t;
 
 typedef struct{

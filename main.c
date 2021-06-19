@@ -3,6 +3,7 @@
 #include "gy_521.h"
 #include "main.h"
 #include "scheduler.h"
+#include "ADC_photo.h"
 
 statement_t statement;
 sys_time_t sys_time;
@@ -36,22 +37,23 @@ int main( void )
  
  out(init);
  init_tim1();
- blink(ride);
 
+ blink(small_blinking);
+ 
  
  while(1){
-  int val=0,yy=0,zz=0;
+
+  statement.brightness=get_level_ADC(get_ADC(4));
+  int val=0;
   val=get_average_GY_521(AXEL_X)/10;
-  yy=get_average_GY_521(AXEL_Y)/10;
-  zz=get_average_GY_521(AXEL_Z)/10;
-  yy++;zz++;
+
   if(statement.display){
   printValue(val, 0); 
   }
   if(check_condition_GY_521(300,20,val)) {  
-   blink(stop);
-   cut_from_scedule(stop_off_task);
-   scedule(stop_off_task,0,5000,0);
+
+   stop_sign();
+
   }
  }
 }

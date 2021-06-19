@@ -7,17 +7,35 @@
 
 void invoke_task(task_t task, int arg){
   switch(task){
+    /*
+     on_led,
+  off_led,
+  PWM_on_led,
+  PWM_off_led,
+  blink_bold,
+  blink_small,
+  stop_blinking,*/
     
-  case on_light:
+  case on_led:
     out(on);
     break;
     
-  case off_light:
+  case off_led:
     out(off);
     break;
-  case  stop_off_task:
-    stop_light();
+    
+  case PWM_on_led:
+    PWM(arg);
     break;
+    
+  case PWM_off_led:
+    PWM(arg);
+    break;
+    
+  case blink_led:
+    blink(arg);
+    break;
+  
     
   default:
     break;
@@ -26,8 +44,8 @@ void invoke_task(task_t task, int arg){
 
 void init_tim1(void){
   TIM1_PSCRH=0;
-  TIM1_PSCRL=0;
-  TIM1_ARRH=100;
+  TIM1_PSCRL=1;
+  TIM1_ARRH=1;
   TIM1_ARRL=100;
   TIM1_IER_UIE=1;
   asm("rim");

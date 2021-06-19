@@ -105,4 +105,5 @@ char getValueGY_521(char reg_addr);
 void initGY_521(void);
 int get_TXYZ_GY_521(char data_type);
 int get_average_GY_521(char data_type);
+int get_mediana(int* data);
 char check_condition_GY_521(int threshold, int hyst, int val);

@@ -5,7 +5,6 @@
 #define nop() asm("nop")
 
 
-
 #define PORT_iic_ODR       PC_ODR
 #define PORT_iic_DDR       PC_DDR
 #define PORT_iic_IDR       PC_IDR
@@ -27,4 +26,3 @@ char start_iic (char adr, char read_write_bit);
 char send_byte (char data_byte);
 unsigned char receive_byte (char acknowledge);
 void stop_iic (void);
-
