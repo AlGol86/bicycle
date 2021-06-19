@@ -4,16 +4,7 @@
 #define sim() asm("sim")
 #define nop() asm("nop")
 
-#define PORT_supply_ODR       PC_ODR
-#define PORT_supply_DDR       PC_DDR
-#define PORT_supply_IDR       PC_IDR
-#define PORT_supply_CR1       PC_CR1
-#define PORT_supply_CR2       PC_CR2
-#define pin_plus         3
-#define bit_plus                           (1<<pin_plus)
-#define pin_minus        4
-#define bit_minus                          (1<<pin_minus)
-#define bit_mask_plus_minus  (bit_plus | bit_minus)
+
 
 
 #define PORT_iic_ODR       PC_ODR
@@ -37,4 +28,3 @@ char start_iic (char adr, char read_write_bit);
 char send_byte (char data_byte);
 unsigned char receive_byte (char acknowledge);
 void stop_iic (void);
-void supply (void);

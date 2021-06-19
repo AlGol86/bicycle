@@ -33,6 +33,6 @@ void stopTransmittoin(void);
 void sendCMD(char byte);
 void sendDataBunch(char* byte);
 void printData(char* byte);
-void printValue(long int val, char leftAlignment);
+void printValue(int val, char leftAlignment);
 void init_LED(void);
 #endif
