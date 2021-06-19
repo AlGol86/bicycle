@@ -26,6 +26,7 @@ extern statement_t statement;
          cut_from_scedule(PWM_off_led);
          scedule(PWM_on_led, bold, 1, 400);
          scedule(PWM_off_led, off, 150, 400);
+
          break;
   
   
@@ -72,13 +73,13 @@ void PWM(out_t out_v){
 
 void out(out_t out){
   switch(out){
-   
+ 
     case init:
-	 PORT_out_CR2&=~BIT_out;
-	 PORT_out_CR1|=BIT_out;
-	 PORT_out_ODR&=~BIT_out;
-	 PORT_out_DDR|=BIT_out;
-	 break;
+	      PORT_out_CR2&=~BIT_out;
+	      PORT_out_CR1|=BIT_out;
+	      PORT_out_ODR&=~BIT_out;
+	      PORT_out_DDR|=BIT_out;
+	      break;
   
     case on:
         PORT_out_ODR|=BIT_out;
