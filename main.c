@@ -37,6 +37,7 @@ int main( void )
  
  out(init);
  init_tim1();
+
  blink(small_blinking);
  
  
@@ -45,14 +46,19 @@ int main( void )
   statement.brightness=get_level_ADC(get_ADC(4));
   int val=0;
   val=get_average_GY_521(AXEL_X)/10;
+
   if(statement.display){
   printValue(val, 0); 
   }
   if(check_condition_GY_521(300,20,val)) {  
+
    stop_sign();
+
   }
  }
 }
+
+
 
 
 

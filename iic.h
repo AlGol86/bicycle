@@ -5,8 +5,6 @@
 #define nop() asm("nop")
 
 
-
-
 #define PORT_iic_ODR       PC_ODR
 #define PORT_iic_DDR       PC_DDR
 #define PORT_iic_IDR       PC_IDR
