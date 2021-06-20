@@ -4,7 +4,7 @@
 void stop_sign(){
 blink(bold_blinking);
 cut_from_scedule(blink_led);
-scedule(blink_led,small_blinking, 15000, 0);
+scedule(blink_led,small_blinking, 4000, 0);
 }
 
 void blink(out_t blink){
@@ -17,15 +17,15 @@ extern statement_t statement;
      case small_blinking:
          cut_from_scedule(PWM_on_led);
          cut_from_scedule(PWM_off_led);
-         scedule(PWM_on_led, small, 1, 2000);
-         scedule(PWM_off_led, off, 300, 2000);
+         scedule(PWM_on_led, small, 1, 1000);
+         scedule(PWM_off_led, off, 120, 1000);
          break;
     
      case bold_blinking:
          cut_from_scedule(PWM_on_led);
          cut_from_scedule(PWM_off_led);
-         scedule(PWM_on_led, bold, 1, 400);
-         scedule(PWM_off_led, off, 150, 400);
+         scedule(PWM_on_led, bold, 1, 200);
+         scedule(PWM_off_led, off, 50, 200);
          break;
   
   
@@ -43,9 +43,9 @@ extern statement_t statement;
 
 void PWM(out_t out_v){
   extern statement_t statement;
-  char period=60;
-  char brightness_val_1[5]={2,3,4,7,10};
-  char brightness_val_2[5]={3,5,10,20,60};
+  char period=30;
+  char brightness_val_1[5]={2,2,3,4,5};
+  char brightness_val_2[5]={3,4,7,15,30};
   switch(out_v){
   
       case small:
