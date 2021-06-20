@@ -45,7 +45,7 @@ void invoke_task(task_t task, int arg){
 void init_tim1(void){
   TIM1_PSCRH=0;
   TIM1_PSCRL=1;
-  TIM1_ARRH=1;
+  TIM1_ARRH=2;
   TIM1_ARRL=100;
   TIM1_IER_UIE=1;
   asm("rim");
