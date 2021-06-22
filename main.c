@@ -8,7 +8,6 @@
 statement_t statement;
 sys_time_t sys_time;
 
-
 int main( void )
 {
  sys_del_ms_iic(200);
@@ -38,8 +37,7 @@ int main( void )
  out(init);
  init_tim1();
  blink(small_blinking);
- 
- 
+  
  while(1){
 
   statement.brightness=get_level_ADC(get_ADC(4));
