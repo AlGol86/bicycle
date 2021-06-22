@@ -23,7 +23,6 @@
 
 typedef enum{off, init, on, small_blinking, bold_blinking, small, bold } out_t;
 
-
 typedef struct{
   out_t blink;
   char cond_f;
