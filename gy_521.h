@@ -95,6 +95,16 @@
 #define MPU6050_FIFO_R_W           0x74   // R/W
 #define MPU6050_WHO_AM_I           0x75   // R
 
+typedef struct{
+  int current_val;
+  int fast_buffer[4];
+  int middle_buffer[4];
+  int slow_buffer[8];
+  char counter;
+  char slow_counter;
+  int zero_level;
+  char sleep;
+} accel_buffer_t;
 
 char getByteGY_521(void);
 void setRegAddrGY_521(char reg_addr);
@@ -105,5 +115,9 @@ char getValueGY_521(char reg_addr);
 void initGY_521(void);
 int get_TXYZ_GY_521(char data_type);
 int get_average_GY_521(char data_type);
+char putValueIntoBuffer(int value, accel_buffer_t* accel_buffer);
+char autoset_zerolevel(accel_buffer_t* accel_buffer);
+char may_sleep(accel_buffer_t* accel_buffer);
 int get_mediana(int* data);
-char check_condition_GY_521(int threshold, int hyst, int val);
+char check_condition_GY_521(int threshold,  char hyst, int min_threshold, accel_buffer_t accel_buffer, char* cond_f);
+char equals (int a, int b, int dx);

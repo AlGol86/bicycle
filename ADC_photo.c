@@ -1,11 +1,16 @@
 #include "iostm8s103f3.h"
+/* AIN CH3 - D2
+*  AIN CH4 - D3
+*  AIN CH5 - D5
+*  AIN CH6 - D6
+*/
 
 char get_level_ADC(int value){
 char x;
 if(value > 800)         x=0;	//dark
-else if(value > 500) 	x=1;
-else if(value > 350)    x=2;
-else if(value > 250)    x=3;
+else if(value > 650) 	x=1;
+else if(value > 550)    x=2;
+else if(value > 450)    x=3;
 else                    x=4;   //bright
 return x;
 }

@@ -73,6 +73,56 @@ int get_average_GY_521(char data_type){
  return get_mediana(&x[0]);
 }
 
+char putValueIntoBuffer(int value, accel_buffer_t* accel_buffer) {
+  char zero_set=0;
+  accel_buffer->current_val = value;
+  
+  if(!(accel_buffer->counter & 0x01)) //0.3 s - fast
+    accel_buffer->fast_buffer[(accel_buffer->counter & 0x06) >>1] = value;
+  
+  if(!(accel_buffer->counter & 0x3F)) { //10s - middle
+    accel_buffer->middle_buffer[(accel_buffer->counter & 0xc0) >> 6] = value;  
+  }
+  
+  if(!(accel_buffer->counter)) { //37 s
+    accel_buffer->slow_buffer[accel_buffer->slow_counter& 0x07] =  value; 
+    zero_set = autoset_zerolevel(accel_buffer); 
+    accel_buffer->slow_counter ++;
+  }
+  
+  accel_buffer->counter++;
+  return zero_set;
+}
+
+char autoset_zerolevel(accel_buffer_t* accel_buffer){
+  int a = accel_buffer->middle_buffer[0];
+  int b = accel_buffer->middle_buffer[1];
+  int c = accel_buffer->middle_buffer[2];
+  int d = accel_buffer->middle_buffer[3];
+  int dx = 15;
+  if(equals(a, b, dx) && equals(b, c, dx) && equals(c, d, dx) && equals(a, d, dx)){
+    accel_buffer->zero_level = ((a+b+c+d)/4);
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+char may_sleep(accel_buffer_t* accel_buffer){
+  int a = accel_buffer->middle_buffer[0];
+  int b = accel_buffer->middle_buffer[1];
+  int c = accel_buffer->middle_buffer[2];
+  int d = accel_buffer->middle_buffer[3];
+  int dx1 = 3;
+  int dx2 = 10;
+  if(equals(a, b, dx1) && equals(b, c, dx1) && equals(c, d, dx1) && equals(a, d, dx1)){
+    accel_buffer->sleep = 1;
+  } else if (!equals(a, b, dx2) || !equals(b, c, dx2) || !equals(c, d, dx2) || !equals(a, d, dx2)){
+    accel_buffer->sleep = 0;
+  }
+  return accel_buffer->sleep;
+}
+
 int get_mediana(int* data){
  int res;
  int x[3];
@@ -87,14 +137,24 @@ int get_mediana(int* data){
  return res;
 }
 
-char check_condition_GY_521(int threshold, int hyst, int val){
-  extern statement_t statement;
+char check_condition_GY_521(int threshold, char hyst, int min_threshold, accel_buffer_t accel_buffer, char* cond_f){
   	
-  if     (val > (threshold+hyst)) 
-  {statement.cond_f=1;return 1;}
-  else if(val < threshold) 
-  {statement.cond_f=0;return 0;}
-  else if (statement.cond_f) 
+  if((accel_buffer.current_val > (threshold+hyst)) \
+    & (accel_buffer.fast_buffer[0] > min_threshold) \
+      & (accel_buffer.fast_buffer[1] > min_threshold) \
+        & (accel_buffer.fast_buffer[2] > min_threshold) \
+          & (accel_buffer.fast_buffer[3] > min_threshold)) 
+  {*cond_f=1;return 1;}
+  else if(accel_buffer.current_val < threshold) 
+  {*cond_f=0;return 0;}
+  else if (*cond_f) 
+    return 1;
+  else 
+    return 0;
+}
+
+char equals(int a, int b, int dx) {
+  if(((a >= b) & (a<=(b+dx))) || ((a <= b) & (a>=(b-dx)))) 
     return 1;
   else 
     return 0;

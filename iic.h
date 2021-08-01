@@ -12,9 +12,9 @@
 #define PORT_iic_IDR       PC_IDR
 #define PORT_iic_CR1       PC_CR1
 #define PORT_iic_CR2       PC_CR2
-#define pin_sda        6
+#define pin_sda        5
 #define bit_sda                           (1<<pin_sda)
-#define pin_clk        5
+#define pin_clk        6
 #define bit_clk                           (1<<pin_clk)
 #define WRITE 0
 #define READ  1
