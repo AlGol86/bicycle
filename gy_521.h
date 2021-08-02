@@ -112,7 +112,7 @@ void getBurstGY_521(char* data, char n);
 
 void setValueGY_521(char reg_addr,char value);
 char getValueGY_521(char reg_addr);
-void initGY_521(void);
+void initGY_521(accel_buffer_t* accel_buffer);
 int get_TXYZ_GY_521(char data_type);
 int get_average_GY_521(char data_type);
 char putValueIntoBuffer(int value, accel_buffer_t* accel_buffer);

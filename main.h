@@ -18,12 +18,12 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-typedef enum{off, init, on, small_blinking, bold_blinking, sleep_blinking, small, bold } out_t;
+typedef enum{off, init, on, reset, small_blinking, bold_blinking, sleep_blinking, alarm_blinking, small, bold } out_t;
 
 typedef struct{
   out_t blink;
+  char alarm_on;
   char cond_f;
-  out_t display;
   char brightness;
 } statement_t;
 
@@ -31,6 +31,7 @@ typedef struct{
 void stop_sign(void);
 void sleep(void);
 void blink(out_t blink);
+void alarm(int level);
 void PWM(out_t out);
 void out(out_t out);
 void supply (out_t mode);

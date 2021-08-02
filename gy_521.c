@@ -40,11 +40,12 @@ void getBurstGY_521(char* data, char n){
   
 }
 
-void initGY_521(){
+void initGY_521(accel_buffer_t* accel_buffer){
         sys_del_ms_iic(100);
 	getValueGY_521(MPU6050_PWR_MGMT_1);
 	setValueGY_521(MPU6050_PWR_MGMT_1,0);
         sys_del_ms_iic(100);
+        accel_buffer->zero_level = get_average_GY_521(AXEL_Z)/10;
 }
 
 int get_TXYZ_GY_521(char data_type){
@@ -55,7 +56,7 @@ int get_TXYZ_GY_521(char data_type){
 	XYZT=(array[0]<<8)+array[1];
 	if (data_type == TEMP)	{XYZT/=34;return XYZT+365;}
 	else {
-          if(XYZT<-15000) XYZT=-15000;
+         // if(XYZT<-15000) XYZT=-15000;
           return XYZT;
         }
 }
@@ -99,7 +100,7 @@ char autoset_zerolevel(accel_buffer_t* accel_buffer){
   int b = accel_buffer->middle_buffer[1];
   int c = accel_buffer->middle_buffer[2];
   int d = accel_buffer->middle_buffer[3];
-  int dx = 15;
+  int dx = 10;
   if(equals(a, b, dx) && equals(b, c, dx) && equals(c, d, dx) && equals(a, d, dx)){
     accel_buffer->zero_level = ((a+b+c+d)/4);
     return 1;

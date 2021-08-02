@@ -13,36 +13,41 @@ int main( void )
 {
  sys_del_ms_iic(200);
  supply (on);
- initGY_521();
- 
- int y=get_average_GY_521(AXEL_Y);  
- while(y==0){
-    supply (off);
-    sys_del_ms_iic(500);
-    supply (on);
-    sys_del_ms_iic(500);
-    initGY_521();
-    y=get_average_GY_521(AXEL_Y);  
+ initGY_521(&accel_buffer);
+ while(!get_average_GY_521(AXEL_Y)){
+    supply (reset);
+    initGY_521(&accel_buffer);
  }
-
  
  out(init);
  init_tim2();
+ 
+ int adjusting_error = get_average_GY_521(AXEL_Z)/10;
+ while(!equals(0,adjusting_error,100)){
+   alarm(adjusting_error);
+   adjusting_error = get_average_GY_521(AXEL_Z)/10;
+ }
+ 
+ cut_from_scedule(blink_led);
+ sys_del_ms_iic(2000);
+ initGY_521(&accel_buffer);
+ 
+ 
  blink(small_blinking);
 
- while(1){ // 52/255=0.2 sec/cycle  disp-off:35/255=0.13 sec/cycle
+ while(1){ // 52/255=0.2 sec/cycle  disp-off:35/255=0.13 sec/cycle ?0.32 s-cycle
 
-  statement.brightness=get_level_ADC(get_ADC(4)); //pin - D3:  AIN ch4
+  statement.brightness=get_level_ADC(get_ADC(4)); //pin - D3:  AIN ch4 //<0.005s
   
-  if(putValueIntoBuffer(get_average_GY_521(AXEL_Z)/10, &accel_buffer))
+  if(putValueIntoBuffer(get_average_GY_521(AXEL_Z)/10, &accel_buffer)) //0.16s
     pulse_B5 (1000);
   
-  if(check_condition_GY_521(270 + accel_buffer.zero_level, 20, -50 + accel_buffer.zero_level, accel_buffer, &statement.cond_f)) 
-    stop_sign();
+  if(check_condition_GY_521(270 + accel_buffer.zero_level, 20, -50 + accel_buffer.zero_level, accel_buffer, &statement.cond_f)) //<0.01 
+    stop_sign(); 
   
   if(may_sleep(&accel_buffer))
     sleep();
-  
- }
+
+}
 }
 
