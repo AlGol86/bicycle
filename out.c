@@ -14,6 +14,14 @@ cut_from_scedule(blink_led);
 scedule(blink_led,small_blinking, 1000, 0);
 }
 
+void halt(){
+cut_from_scedule(blink_led);
+blink(off);
+B5_off();
+supply (off);
+asm("halt");
+}
+
 void alarm(int level){
   extern statement_t statement;
   if(level<0) level=-level;
@@ -139,7 +147,7 @@ void out(out_t out){
         PORT_supply_CR2|=bit_minus;
 	PORT_supply_CR1&=~bit_minus;
 	PORT_supply_ODR&=~bit_minus; 
-	PORT_supply_DDR|=bit_minus;;
+	PORT_supply_DDR|=bit_minus;
         break;
   
     case off:

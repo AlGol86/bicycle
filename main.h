@@ -30,6 +30,7 @@ typedef struct{
 
 void stop_sign(void);
 void sleep(void);
+void halt(void);
 void blink(out_t blink);
 void alarm(int level);
 void PWM(out_t out);

@@ -104,6 +104,7 @@ typedef struct{
   char slow_counter;
   int zero_level;
   char sleep;
+  char halt;
 } accel_buffer_t;
 
 char getByteGY_521(void);
@@ -121,3 +122,4 @@ char may_sleep(accel_buffer_t* accel_buffer);
 int get_mediana(int* data);
 char check_condition_GY_521(int threshold,  char hyst, int min_threshold, accel_buffer_t accel_buffer, char* cond_f);
 char equals (int a, int b, int dx);
+char may_halt(accel_buffer_t* accel_buffer);

@@ -16,9 +16,9 @@
 #define bit_sda                           (1<<pin_sda)
 #define pin_clk        6
 #define bit_clk                           (1<<pin_clk)
-#define WRITE 0
-#define READ  1
-#define ACK 1 //acknowledge
+#define WRITE   0
+#define READ    1
+#define ACK     1 //acknowledge
 #define NOT_ACK 0 //not acknowledge
 
 //iic

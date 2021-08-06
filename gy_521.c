@@ -124,6 +124,17 @@ char may_sleep(accel_buffer_t* accel_buffer){
   return accel_buffer->sleep;
 }
 
+char may_halt(accel_buffer_t* accel_buffer){
+  int dx = 3;
+  if(equals(accel_buffer->slow_buffer[0], accel_buffer->slow_buffer[1], dx) && equals(accel_buffer->slow_buffer[1], accel_buffer->slow_buffer[2], dx) \
+    && equals(accel_buffer->slow_buffer[2], accel_buffer->slow_buffer[3], dx) && equals(accel_buffer->slow_buffer[3], accel_buffer->slow_buffer[4], dx)\
+     && equals(accel_buffer->slow_buffer[4], accel_buffer->slow_buffer[5], dx) && equals(accel_buffer->slow_buffer[5], accel_buffer->slow_buffer[6], dx) \
+      && equals(accel_buffer->slow_buffer[6], accel_buffer->slow_buffer[7], dx) && accel_buffer->slow_buffer[7] != 0){
+    accel_buffer->halt = 1;
+    }
+  return accel_buffer->halt;
+}
+
 int get_mediana(int* data){
  int res;
  int x[3];

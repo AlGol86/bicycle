@@ -35,19 +35,21 @@ int main( void )
  
  blink(small_blinking);
 
- while(1){ // 52/255=0.2 sec/cycle  disp-off:35/255=0.13 sec/cycle ?0.32 s-cycle
+ while(1){ // 52/255=0.2 sec/cycle  disp-off:35/255=0.13 sec/cycle 
 
   statement.brightness=get_level_ADC(get_ADC(4)); //pin - D3:  AIN ch4 //<0.005s
   
   if(putValueIntoBuffer(get_average_GY_521(AXEL_Z)/10, &accel_buffer)) //0.16s
     pulse_B5 (1000);
   
-  if(check_condition_GY_521(270 + accel_buffer.zero_level, 20, -50 + accel_buffer.zero_level, accel_buffer, &statement.cond_f)) //<0.01 
+  if(check_condition_GY_521(260 + accel_buffer.zero_level, 20, -100 + accel_buffer.zero_level, accel_buffer, &statement.cond_f)) //<0.01 s
     stop_sign(); 
   
   if(may_sleep(&accel_buffer))
     sleep();
-
-}
+  
+  if(may_halt(&accel_buffer))
+    halt();
+ }
 }
 
